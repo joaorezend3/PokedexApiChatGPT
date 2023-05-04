@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>GPT-3.5-turbo API Demo</title>
+  </head>
+  <body>
+    <h1>GPT-3.5-turbo API Demo</h1>
+    <p>Insira o texto abaixo:</p>
+    <textarea id="input"></textarea>
+    <button id="refazer-btn">Refazer texto</button>
+    <button id="resumir-btn">Resumir texto</button>
+    <button id="correcao-btn">Correção ortográfica</button>
+    <p>Resultado:</p>
+    <textarea id="output" readonly></textarea>
+    <button id="copiar-btn">Copiar resultado</button>
+    
+    <!-- Adicione o script abaixo para carregar a API do OpenAI -->
+    <script src="https://cdn.openai.com/api/v1/openai.js"></script>
+    <script>
+// Adicione a sua chave de API abaixo
+const openaiApiKey = "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";
+
+// Crie uma referência para os elementos HTML relevantes
+const input = document.getElementById("input");
+const output = document.getElementById("output");
+const refazerBtn = document.getElementById("refazer-btn");
+const resumirBtn = document.getElementById("resumir-btn");
+const correcaoBtn = document.getElementById("correcao-btn");
+const copiarBtn = document.getElementById("copiar-btn");
+
+// Registre os manipuladores de eventos para os botões
+refazerBtn.addEventListener("click", refazerTexto);
+resumirBtn.addEventListener("click", resumirTexto);
+correcaoBtn.addEventListener("click", correcaoOrtografica);
+copiarBtn.addEventListener("click", copiarResultado);
+
+// Crie a função para enviar uma solicitação para refazer o texto
+async function refazerTexto() {
+  const response = await fetch("https://api.openai.com/v1/texts/rewriting", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${openaiApiKey}`
+    },
+    body: JSON.stringify({
+      text: input.value
+    })
+  });
+  const data = await response.json();
+  output.value = data.data[0].text;
+}
+// Crie a função para enviar uma solicitação para resumir o texto
+async function resumirTexto() {
+  const response = await fetch("https://api.openai.com/v1/summarization", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${openaiApiKey}`
+    },
+    body: JSON.stringify({
+      document: input.value,
+      max_tokens: 60
+    })
+  });
+  const data = await response.json();
+  output.value = data.choices[0].text;
+}
+
+// Crie a função para enviar uma solicitação para correção ortográfica
+async function correcaoOrtografica() {
+  const response = await fetch("https://api.openai.com/v1/engines/davinci-codex/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${openaiApiKey}`
+    },
+    body: JSON.stringify({
+      prompt: `Corrija os erros ortográficos no seguinte texto:\n${input.value}\nCorreção:`,
+      max_tokens: 60,
+      n: 1,
+      stop: "\n"
+    })
+  });
+  const data = await response.json();
+  output.value = data.choices[0].text.trim();
+}
+
+// Crie a função para copiar o resultado para a área de transferência
+function copiarResultado() {
+  output.select();
+  document.execCommand("copy");
+  alert("Resultado copiado para a área de transferência.");
+}
+
+</script>
+  </body>
+</html>
