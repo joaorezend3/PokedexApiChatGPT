@@ -14,12 +14,12 @@ function loadPokemon() {
             const pokemonElement = document.createElement("div");
             pokemonElement.className = "pokemon";
             pokemonElement.innerHTML = `
-          <h2>${data.name}</h2>
+          <h1>${data.name}</h1>
           <img src="${data.sprites.front_default}" alt="${data.name}">
-          <p>Abilities: ${data.abilities
+          <h2>Abilities:</h2> <p>${data.abilities
             .map((ability) => ability.ability.name)
             .join(", ")}</p>
-          <p>Type: ${data.types.map((type) => type.type.name).join(", ")}</p>
+          <h3>Type:</h3><p> ${data.types.map((type) => type.type.name).join(", ")}</p>
         `;
             container.appendChild(pokemonElement);
           });

@@ -1,11 +1,42 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+h1,
+h2,
+h3 {
+  font-family: "Righteous", cursive;
+  color: #862100;
+}
+p {
+  font-family: "Comfortaa", cursive;
+  color: #362e1c;
+}
+body {
+  background-color: #ff9441;
+  padding: 20px 30px;
+}
+#pokemon-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 .pokemon {
-    display: inline-block;
-    margin: 10px;
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
-
-  .pokemon img {
-    display: block;
-    margin: 0 auto;
-  }
+  background-color: #e6ac5a;
+  border-radius: 6px;
+  border: solid 1px #e6ac5a;
+  margin: 10px;
+  padding: 10px;
+  height: 270px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  transition: 0.2s;
+}
+.pokemon:hover {
+  transform: scale(1.1);
+  border-radius: 10%;
+}
